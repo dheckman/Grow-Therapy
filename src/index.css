@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* React calendar styles */
+.react-calendar__navigation {
+  margin-bottom: 32px;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background-color: transparent;
+}
+
+.react-calendar__navigation__label__labelText--from {
+  color: #020202;
+  font-family: Poppins;
+  font-weight: 500;
+}
+
+.react-calendar__month-view__weekdays {
+  color: #a7aaab;
+  font-family: Poppins;
+  font-weight: 400;
+}
+
+abbr:where([title]) {
+  text-decoration: none;
+}
+
+.react-calendar__month-view__days,
+.react-calendar__month-view__days__day--neighboringMonth,
+.react-calendar__tile {
+  color: #05090d;
+  font-family: Poppins;
+  font-size: 14px;
+  padding: 13px 0;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background-color: #b3cec9;
+  border-radius: 100%;
+  color: #025b4b;
+}
+
+/* Pagination styles */
+.paginated-list {
+  align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.paginated-list-item-link {
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #d4d8d9;
+  border-radius: 100px;
+  color: #05090d;
+  display: inline-flex;
+  font-family: Poppins;
+  font-size: 14px;
+  height: 40px;
+  justify-content: center;
+  padding: 10px;
+  width: 40px;
+}
+
+.navigation-link {
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #d4d8d9;
+  border-radius: 100px;
+  color: #05090d;
+  display: inline-flex;
+  font-family: Poppins;
+  font-size: 14px;
+  height: 40px;
+  justify-content: center;
+  margin: 0 16px;
+  padding: 10px;
+  width: 40px;
+}
+
+.navigation-link.disabled {
+  background-color: #d4d8d9;
+}
+
+.paginated-list-item.selected > .paginated-list-item-link {
+  background-color: #e0e9cb;
+  color: #025b4b;
+  font-weight: 600;
+}
