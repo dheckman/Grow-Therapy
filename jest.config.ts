@@ -14,7 +14,7 @@ const config: JestConfigWithTsJest = {
   },
   moduleNameMapper: {
     '^.+\\.svg$': 'jest-svg-transformer',
-    '\\.(css)$': '<rootDir>/styleMock.tsx'
+    '\\.(css)$': '<rootDir>/src/__tests__/__mocks__/styleMock.tsx'
   },
   coveragePathIgnorePatterns: [
     '/node_modules/',
