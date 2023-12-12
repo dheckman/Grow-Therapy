@@ -1,3 +1,7 @@
+# A small app to show top Wikipedia articles with the ability to filter by date and country.
+
+## 🪴 Made for Grow Therapy 🪴
+
 ## To run locally
 
 From your terminal:
@@ -23,7 +27,7 @@ Server will be available at http://localhost:5173/
 
 - Accessibility
   - I used [Google Lighthouse](https://developer.chrome.com/docs/lighthouse) to periodically audit my pages.
-  - Building with reusability in mind.
+- Building with component reusability in mind.
 
 ## Todo:
 
