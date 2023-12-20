@@ -21,6 +21,7 @@ export type DashboardContextType = {
   currentArticleList: ArticleType[] | null;
   error: string | null;
   handlePageClick: (selectedPage: number) => void;
+  handleSearch: () => void;
   isCalendarOpen: boolean;
   isCountryFilterOpen: boolean;
   isNumResultsFilterOpen: boolean;
@@ -56,27 +57,27 @@ export const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<null | string>(null);
 
+  const loadArticles = async () => {
+    // slightly hacky, consider using a library
+    const formattedDate = selectedDate
+      ? selectedDate?.toLocaleString('sv-SE', { dateStyle: 'short' }).split('-').join('/')
+      : yesterday.toString();
+
+    const { articles, error } = await getArticles(formattedDate, country.value);
+    if (articles) {
+      setError('');
+      setArticles(articles);
+    }
+    if (error) {
+      setArticles([]);
+      setError(error);
+    }
+    setIsLoaded(true);
+  };
+
   useEffect(() => {
-    const loadArticles = async () => {
-      // slightly hacky, consider using a library
-      const formattedDate = selectedDate
-        ? selectedDate?.toLocaleString('sv-SE', { dateStyle: 'short' }).split('-').join('/')
-        : yesterday.toString();
-
-      const { articles, error } = await getArticles(formattedDate, country.value);
-      if (articles) {
-        setError('');
-        setArticles(articles);
-      }
-      if (error) {
-        setArticles([]);
-        setError(error);
-      }
-      setIsLoaded(true);
-    };
-
     loadArticles();
-  }, [itemsPerPage, selectedDate, country]);
+  }, []);
 
   useEffect(() => {
     if (articles) {
@@ -92,6 +93,10 @@ export const Dashboard = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const handleSearch = () => {
+    loadArticles();
+  };
+
   if (!isLoaded) {
     return <span className="mt-10 flex justify-center">Loading...</span>;
   }
@@ -104,6 +109,7 @@ export const Dashboard = ({ children }: { children: React.ReactNode }) => {
         currentArticleList,
         error,
         handlePageClick,
+        handleSearch,
         isCalendarOpen,
         isCountryFilterOpen,
         isNumResultsFilterOpen,
