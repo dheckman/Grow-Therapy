@@ -15,9 +15,8 @@ export const DatePicker = () => {
 
   const wrapperRef = useRef(null);
   useOutsideClickHandler(wrapperRef, setIsCalendarOpen);
-
   const formatDate = (date: Value) => {
-    return date?.toLocaleString('en-US', {
+    return date?.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
