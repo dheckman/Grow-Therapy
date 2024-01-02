@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { getArticles } from '../api/articles';
 import * as React from 'react';
 
@@ -84,7 +84,7 @@ export const Dashboard = ({ children }: { children: React.ReactNode }) => {
       const endOffset = itemOffset + itemsPerPage;
       setCurrentArticleList(articles.slice(itemOffset, endOffset));
     }
-  }, [articles, itemOffset, itemsPerPage]);
+  }, [articles, itemOffset]);
 
   const handlePageClick = (selectedPage: number) => {
     if (articles) {
