@@ -41,9 +41,6 @@ export const DashboardContext = React.createContext<DashboardContextType>(
 
 export const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const [articles, setArticles] = useState<ArticleType[] | null>([]);
-  const [currentArticleList, setCurrentArticleList] = useState<ArticleType[] | null>(
-    articles ? articles.slice(0, 100) : []
-  );
   const [itemOffset, setItemOffset] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(100);
 
@@ -58,7 +55,8 @@ export const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const [error, setError] = useState<null | string>(null);
 
   const loadArticles = async () => {
-    // slightly hacky, consider using a library
+    // slightly hacky, consider using a library. Why are we in Sweden?!
+    // future localization
     const formattedDate = selectedDate
       ? selectedDate?.toLocaleString('sv-SE', { dateStyle: 'short' }).split('-').join('/')
       : yesterday.toString();
@@ -79,12 +77,13 @@ export const Dashboard = ({ children }: { children: React.ReactNode }) => {
     loadArticles();
   }, []);
 
-  useEffect(() => {
+  const currentArticleList = useMemo(() => {
     if (articles) {
       const endOffset = itemOffset + itemsPerPage;
-      setCurrentArticleList(articles.slice(itemOffset, endOffset));
+      return articles?.slice(itemOffset, endOffset);
     }
-  }, [articles, itemOffset]);
+    return [];
+  }, [articles, itemOffset, itemsPerPage]);
 
   const handlePageClick = (selectedPage: number) => {
     if (articles) {

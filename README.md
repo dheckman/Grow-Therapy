@@ -37,3 +37,12 @@ Server will be available at http://localhost:5173/
 - Responsive pagination
 - Clean up types
 - Implement search button
+
+## Core Packages:
+
+- [i18n-iso-countries](https://www.npmjs.com/package/i18n-iso-countries)
+  Well supported and limited dependencies
+- [react-calendar](https://www.npmjs.com/package/react-calendar)
+  Lightweight, supported and very customizable
+- [react-paginate](https://www.npmjs.com/package/react-paginate)
+  One dependency, customizable
