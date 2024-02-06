@@ -12,11 +12,13 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Inter&family=Lora&family=Poppins&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.onload=null;this.removeAttribute('media');"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Top Wikipedia Articles</title>
   </head>
-  <body class="font-inter bg-neutral-100">
+  <body class="bg-neutral-100 font-inter">
     <div id="root" class="m-auto"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

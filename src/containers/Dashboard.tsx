@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { getArticles } from '../api/articles';
 import * as React from 'react';
 
@@ -21,6 +21,7 @@ export type DashboardContextType = {
   currentArticleList: ArticleType[] | null;
   error: string | null;
   handlePageClick: (selectedPage: number) => void;
+  handleSearch: () => void;
   isCalendarOpen: boolean;
   isCountryFilterOpen: boolean;
   isNumResultsFilterOpen: boolean;
@@ -40,9 +41,6 @@ export const DashboardContext = React.createContext<DashboardContextType>(
 
 export const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const [articles, setArticles] = useState<ArticleType[] | null>([]);
-  const [currentArticleList, setCurrentArticleList] = useState<ArticleType[] | null>(
-    articles ? articles.slice(0, 100) : []
-  );
   const [itemOffset, setItemOffset] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(100);
 
@@ -56,33 +54,35 @@ export const Dashboard = ({ children }: { children: React.ReactNode }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<null | string>(null);
 
+  const loadArticles = async () => {
+    // slightly hacky, consider using a library. Why are we in Sweden?!
+    // future localization
+    const formattedDate = selectedDate
+      ? selectedDate?.toLocaleString('sv-SE', { dateStyle: 'short' }).split('-').join('/')
+      : yesterday.toString();
+
+    const { articles, error } = await getArticles(formattedDate, country.value);
+    if (articles) {
+      setError('');
+      setArticles(articles);
+    }
+    if (error) {
+      setArticles([]);
+      setError(error);
+    }
+    setIsLoaded(true);
+  };
+
   useEffect(() => {
-    const loadArticles = async () => {
-      // slightly hacky, consider using a library
-      const formattedDate = selectedDate
-        ? selectedDate?.toLocaleString('sv-SE', { dateStyle: 'short' }).split('-').join('/')
-        : yesterday.toString();
-
-      const { articles, error } = await getArticles(formattedDate, country.value);
-      if (articles) {
-        setError('');
-        setArticles(articles);
-      }
-      if (error) {
-        setArticles([]);
-        setError(error);
-      }
-      setIsLoaded(true);
-    };
-
     loadArticles();
-  }, [itemsPerPage, selectedDate, country]);
+  }, []);
 
-  useEffect(() => {
+  const currentArticleList = useMemo(() => {
     if (articles) {
       const endOffset = itemOffset + itemsPerPage;
-      setCurrentArticleList(articles.slice(itemOffset, endOffset));
+      return articles?.slice(itemOffset, endOffset);
     }
+    return [];
   }, [articles, itemOffset, itemsPerPage]);
 
   const handlePageClick = (selectedPage: number) => {
@@ -90,6 +90,10 @@ export const Dashboard = ({ children }: { children: React.ReactNode }) => {
       const newOffset = (selectedPage * itemsPerPage) % articles.length;
       setItemOffset(newOffset);
     }
+  };
+
+  const handleSearch = () => {
+    loadArticles();
   };
 
   if (!isLoaded) {
@@ -104,6 +108,7 @@ export const Dashboard = ({ children }: { children: React.ReactNode }) => {
         currentArticleList,
         error,
         handlePageClick,
+        handleSearch,
         isCalendarOpen,
         isCountryFilterOpen,
         isNumResultsFilterOpen,

@@ -15,6 +15,24 @@ const renderApp = async () => {
   });
 };
 
+const mockOkArticleResponseType: ArticleType[] = [
+  {
+    article: 'I am a cool article',
+    views_ceil: 8675309,
+    rank: 1
+  },
+  {
+    article: 'I am a second cool article',
+    views_ceil: 3,
+    rank: 2
+  },
+  {
+    article: 'Another article?!',
+    views_ceil: 666,
+    rank: 3
+  }
+];
+
 describe('Dashboard', () => {
   beforeEach(async () => {
     jest
@@ -26,24 +44,6 @@ describe('Dashboard', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-
-  const mockOkArticleResponseType: ArticleType[] = [
-    {
-      article: 'I am a cool article',
-      views_ceil: 8675309,
-      rank: 1
-    },
-    {
-      article: 'I am a second cool article',
-      views_ceil: 3,
-      rank: 2
-    },
-    {
-      article: 'Another article?!',
-      views_ceil: 666,
-      rank: 3
-    }
-  ];
 
   it('should render the page title', () => {
     expect(screen.getByText(/Top Wikipedia Articles/)).toBeInTheDocument();
